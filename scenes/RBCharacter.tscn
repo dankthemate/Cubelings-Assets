@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://bupwbkk4jbfd3"]
+
+[ext_resource type="Script" uid="uid://bptg4alrlrqb6" path="res://src/classes/nodes/rbcharacter.gd" id="1_rwm0n"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_s027a"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_14505"]
+
+[node name="RBCharacter" type="RigidBody3D" unique_id=277689570]
+contact_monitor = true
+max_contacts_reported = 10
+script = ExtResource("1_rwm0n")
+metadata/_custom_type_script = "uid://bklxcdyxgbjg2"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1589294709]
+mesh = SubResource("CapsuleMesh_s027a")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1025119049]
+shape = SubResource("CapsuleShape3D_14505")
