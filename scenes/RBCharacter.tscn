@@ -1,6 +1,13 @@
 [gd_scene format=3 uid="uid://bupwbkk4jbfd3"]
 
 [ext_resource type="Script" uid="uid://bptg4alrlrqb6" path="res://src/classes/nodes/rbcharacter.gd" id="1_rwm0n"]
+[ext_resource type="Script" uid="uid://buvbfu685qylj" path="res://src/classes/nodes/component_manager.gd" id="2_drjsc"]
+[ext_resource type="Script" uid="uid://dour8fehaaugp" path="res://addons/netfox/tick-interpolator.gd" id="2_fij43"]
+[ext_resource type="Script" uid="uid://d350u8evihs1u" path="res://addons/netfox/rollback/rollback-synchronizer.gd" id="3_drjsc"]
+[ext_resource type="Script" uid="uid://dg4xmolgi6s50" path="res://src/scripts/components/humanoid_component.gd" id="3_pmrb2"]
+[ext_resource type="Script" uid="uid://lj2we2ssabbx" path="res://src/scripts/components/input_component.gd" id="4_ufsee"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fij43"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_s027a"]
 
@@ -11,6 +18,38 @@ contact_monitor = true
 max_contacts_reported = 10
 script = ExtResource("1_rwm0n")
 metadata/_custom_type_script = "uid://bklxcdyxgbjg2"
+
+[node name="ComponentManager" type="Node" parent="." unique_id=1505575919 node_paths=PackedStringArray("root_node")]
+script = ExtResource("2_drjsc")
+root_node = NodePath("..")
+metadata/_custom_type_script = "uid://buvbfu685qylj"
+
+[node name="HumanoidComponent" type="Node" parent="ComponentManager" unique_id=223441083]
+script = ExtResource("3_pmrb2")
+metadata/_custom_type_script = "uid://dg4xmolgi6s50"
+
+[node name="InputComponent" type="Node" parent="ComponentManager" unique_id=766133124]
+script = ExtResource("4_ufsee")
+metadata/_custom_type_script = "uid://lj2we2ssabbx"
+
+[node name="Networking" type="Node" parent="." unique_id=448496952]
+
+[node name="TickInterpolator" type="Node" parent="Networking" unique_id=509999001 node_paths=PackedStringArray("root")]
+script = ExtResource("2_fij43")
+root = NodePath("../..")
+properties = Array[String]([":global_transform", ":velocity"])
+metadata/_custom_type_script = "uid://dour8fehaaugp"
+
+[node name="RollbackSynchronizer" type="Node" parent="Networking" unique_id=883776512 node_paths=PackedStringArray("root")]
+script = ExtResource("3_drjsc")
+root = NodePath("../..")
+enable_prediction = true
+state_properties = Array[String]([":velocity", ":global_transform"])
+metadata/_custom_type_script = "uid://d350u8evihs1u"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Networking" unique_id=356048509]
+root_path = NodePath("../..")
+replication_config = SubResource("SceneReplicationConfig_fij43")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1589294709]
 mesh = SubResource("CapsuleMesh_s027a")
