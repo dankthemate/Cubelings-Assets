@@ -6,6 +6,22 @@
 [ext_resource type="Script" uid="uid://d350u8evihs1u" path="res://addons/netfox/rollback/rollback-synchronizer.gd" id="3_drjsc"]
 [ext_resource type="Script" uid="uid://dg4xmolgi6s50" path="res://src/scripts/components/humanoid_component.gd" id="3_pmrb2"]
 [ext_resource type="Script" uid="uid://lj2we2ssabbx" path="res://src/scripts/components/input_component.gd" id="4_ufsee"]
+[ext_resource type="Script" uid="uid://byhgr2ifogygl" path="res://src/classes/nodes/finite_state_machine.gd" id="5_hd72m"]
+[ext_resource type="Script" uid="uid://ddv3bq5h1dvpi" path="res://src/scripts/states/test.gd" id="6_hd72m"]
+[ext_resource type="Script" uid="uid://ch5sq8g8n71lw" path="res://src/classes/resources/finite_state_transition.gd" id="7_r8ebw"]
+[ext_resource type="Script" uid="uid://vw6y3bokxa1p" path="res://src/scripts/states/test2.gd" id="8_ylrj3"]
+
+[sub_resource type="Resource" id="Resource_fc2px"]
+script = ExtResource("7_r8ebw")
+advance_expression = "input.jumping"
+new_state = NodePath("../googi")
+metadata/_custom_type_script = "uid://ch5sq8g8n71lw"
+
+[sub_resource type="Resource" id="Resource_rl7lf"]
+script = ExtResource("7_r8ebw")
+advance_expression = "not input.jumping"
+new_state = NodePath("../test")
+metadata/_custom_type_script = "uid://ch5sq8g8n71lw"
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fij43"]
 
@@ -31,6 +47,23 @@ metadata/_custom_type_script = "uid://dg4xmolgi6s50"
 [node name="InputComponent" type="Node" parent="ComponentManager" unique_id=766133124]
 script = ExtResource("4_ufsee")
 metadata/_custom_type_script = "uid://lj2we2ssabbx"
+
+[node name="FiniteStateMachine" type="Node" parent="." unique_id=408616616 node_paths=PackedStringArray("component_manager", "root_node", "initial_state")]
+script = ExtResource("5_hd72m")
+component_manager = NodePath("../ComponentManager")
+root_node = NodePath("..")
+initial_state = NodePath("test")
+metadata/_custom_type_script = "uid://byhgr2ifogygl"
+
+[node name="test" type="Node" parent="FiniteStateMachine" unique_id=1092919323]
+script = ExtResource("6_hd72m")
+transitions = Array[ExtResource("7_r8ebw")]([SubResource("Resource_fc2px")])
+metadata/_custom_type_script = "uid://ceyq5q7rpcj06"
+
+[node name="googi" type="Node" parent="FiniteStateMachine" unique_id=2393132]
+script = ExtResource("8_ylrj3")
+transitions = Array[ExtResource("7_r8ebw")]([SubResource("Resource_rl7lf")])
+metadata/_custom_type_script = "uid://ceyq5q7rpcj06"
 
 [node name="Networking" type="Node" parent="." unique_id=448496952]
 
